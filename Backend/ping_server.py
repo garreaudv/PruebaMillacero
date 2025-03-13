@@ -84,14 +84,13 @@ async def monitor_host(websocket, ip):
             tracker.consecutive_failures = 0
             tracker.is_reachable = True
             status = "up"
+            message = ""
         else:
             tracker.consecutive_failures += 1
+            status = "down"  # Ahora reportamos "down" inmediatamente cuando falla un ping
             
-            if tracker.consecutive_failures >= 3:
-                tracker.is_reachable = False
-                status = "down"
-            else:
-                status = "up"  # Todavía consideramos que está up hasta 3 fallos consecutivos
+            # Solo agregamos el mensaje de "Host inalcanzable" después de 3 fallos consecutivos
+            message = "Host inalcanzable" if tracker.consecutive_failures >= 3 else ""
         
         # Preparar el mensaje para enviar al cliente
         result = {
@@ -99,7 +98,7 @@ async def monitor_host(websocket, ip):
             "timestamp": datetime.now().strftime("%H:%M:%S"),
             "latency": latency if is_reachable else 0,
             "status": status,
-            "message": "Host inalcanzable" if tracker.consecutive_failures >= 3 else ""
+            "message": message
         }
         
         # Enviar resultado al cliente
