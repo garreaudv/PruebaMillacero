@@ -1,4 +1,4 @@
-# PruebaMillacero# Monitor de Ping en Tiempo Real
+# PruebaMillacero
 
 Este proyecto implementa un sistema de monitoreo de ping en tiempo real, utilizando WebSockets para la comunicación entre un servidor Python y un cliente React. El sistema permite monitorear la conectividad y latencia de direcciones IP específicas con actualizaciones en tiempo real.
 
